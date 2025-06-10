@@ -10,11 +10,11 @@ function Header() {
         <div className="flex items-center h-16 gap-10">
           {/* Title - Left corner */}
           <div className="flex-shrink-0">
-            <a href="/">
+            <Link href="/">
               <h1 className="text-2xl font-bold text-gray-900 cursor-pointer hover:text-violet-900 transition-colors duration-200">
                 Quotes App
               </h1>
-            </a>
+            </Link>
           </div>
 
           {/* Navigation - Center */}

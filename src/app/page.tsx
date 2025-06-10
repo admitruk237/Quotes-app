@@ -1,27 +1,27 @@
 'use client';
 import Button from '@/components/Button';
+import QuoteCardSkeleton from '@/components/QuoteCardSkeleton';
 import Quotes from '@/components/Quotes';
+import Title from '@/components/Title';
+import { API_ENDPOINTS } from '@/constants/api';
+import { Quote } from '@/types/interfaces';
 import { useEffect, useState } from 'react';
-
-interface Quote {
-  id: string;
-  text: string;
-  author: string;
-  categories: string[]; // Assuming categories could be an array of strings
-}
 
 export default function Home() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
-  const RUNDOM_QUOTES_URL = 'http://localhost:3000/quotes/random?limit=10';
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchQuotes = async () => {
     try {
-      const response = await fetch(RUNDOM_QUOTES_URL);
+      setIsLoading(true);
+      const response = await fetch(`${API_ENDPOINTS.ALL_QUOTES}?limit=10`);
       const data = await response.json();
 
       setQuotes(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -31,12 +31,18 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <h1 className="text-center text-3xl mb-6">Quotes frontend app</h1>
-      <Button fetchQuotes={fetchQuotes} text="Get Random Quotes" />
+      <Title text="Quotes frontend app" />
+      <Button onClick={fetchQuotes} text="Get Random Quotes" />
+      {isLoading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <QuoteCardSkeleton key={index} />
+          ))}
+        </div>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {quotes.map((quote) => (
-          <Quotes key={quote.id} quote={quote} />
-        ))}
+        {!isLoading &&
+          quotes.map((quote) => <Quotes key={quote.id} quote={quote} />)}
       </div>
     </div>
   );
