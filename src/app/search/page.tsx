@@ -9,6 +9,9 @@ import QuoteCardSkeleton from '@/components/QuoteCardSkeleton';
 import { API_ENDPOINTS } from '@/constants/api';
 import { createSearchQueryInterface, Quote } from '@/types/interfaces';
 
+//Regex for category validation
+const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/;
+
 const createSearchQuery = ({
   text,
   author,
@@ -31,9 +34,24 @@ function Search() {
   const [searchSubmitted, setSearchSubmitted] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [errors, setErrors] = useState<createSearchQueryInterface>({
+    text: '',
+    author: '',
+    category: '',
+  });
 
   const handleSearch = async () => {
+    const validationErrors = validationInputs();
+    if (
+      Object.keys(validationErrors).some(
+        (key) => validationErrors[key as keyof createSearchQueryInterface]
+      )
+    ) {
+      setErrors(validationErrors);
+      return;
+    }
     try {
+      setErrors({ text: '', author: '', category: '' });
       setIsLoading(true);
       setSearchSubmitted(true);
       const query = createSearchQuery({ text, author, category });
@@ -47,35 +65,90 @@ function Search() {
     }
   };
 
+  const validationInputs = (): createSearchQueryInterface => {
+    const newErrors: createSearchQueryInterface = {
+      text: '',
+      author: '',
+      category: '',
+    };
+
+    if (text && text.length < 2) {
+      newErrors.text = 'Text must be at least 2 characters long';
+    }
+
+    if (author && author.length < 2) {
+      newErrors.author = 'Author must be at least 2 characters long';
+    }
+
+    if (category && !CATEGORY_NAME_REGEX.test(category)) {
+      newErrors.category =
+        'Category can only contain lowercase letters, numbers, and dashes';
+    }
+
+    return newErrors;
+  };
+
+  const handleInpuChange = (name: string, value: string) => {
+    switch (name) {
+      case 'text':
+        setText(value);
+        break;
+      case 'author':
+        setAuthor(value);
+        break;
+      case 'category':
+        setCategory(value);
+        break;
+      default:
+        break;
+    }
+    setErrors(validationInputs());
+  };
+
   return (
     <div>
       <Title text="Search Quotes" />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <Input
-          id="text"
-          name="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Search by quote text..."
-          label="Quote Text"
-        />
-        <Input
-          id="author"
-          name="author"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          placeholder="Search by author name..."
-          label="Author Name"
-        />
-        <Input
-          id="category"
-          name="category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          placeholder="Search by category..."
-          label="Category"
-        />
+        <div>
+          <Input
+            id="text"
+            name="text"
+            value={text}
+            onChange={(e) => handleInpuChange('text', e.target.value)}
+            placeholder="Search by quote text..."
+            label="Quote Text"
+          />
+          {errors.text && (
+            <p className="text-red-500 text-base">{errors.text}</p>
+          )}
+        </div>
+        <div>
+          <Input
+            id="author"
+            name="author"
+            value={author}
+            onChange={(e) => handleInpuChange('author', e.target.value)}
+            placeholder="Search by author name..."
+            label="Author Name"
+          />
+          {errors.author && (
+            <p className="text-red-500 text-base">{errors.author}</p>
+          )}
+        </div>
+        <div>
+          <Input
+            id="category"
+            name="category"
+            value={category}
+            onChange={(e) => handleInpuChange('category', e.target.value)}
+            placeholder="Search by category..."
+            label="Category"
+          />
+          {errors.category && (
+            <p className="text-red-500 text-base">{errors.category}</p>
+          )}
+        </div>
       </div>
 
       <Button onClick={handleSearch} text="Search Quotes" />
