@@ -34,6 +34,7 @@ function Search() {
   const [searchSubmitted, setSearchSubmitted] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [empty, setEmpty] = useState<null | string>(null);
   const [errors, setErrors] = useState<createSearchQueryInterface>({
     text: '',
     author: '',
@@ -41,15 +42,15 @@ function Search() {
   });
 
   const handleSearch = async () => {
-    const validationErrors = validationInputs();
-    if (
-      Object.keys(validationErrors).some(
-        (key) => validationErrors[key as keyof createSearchQueryInterface]
-      )
-    ) {
-      setErrors(validationErrors);
+    if (text.trim() === '' && author.trim() === '' && category.trim() === '') {
+      return setEmpty('Input field can not be empty'); // Prevent empty search
+    }
+
+    const hasErrors = Object.values(errors).some((error) => error !== '');
+    if (hasErrors) {
       return;
     }
+
     try {
       setErrors({ text: '', author: '', category: '' });
       setIsLoading(true);
@@ -65,30 +66,35 @@ function Search() {
     }
   };
 
-  const validationInputs = (): createSearchQueryInterface => {
-    const newErrors: createSearchQueryInterface = {
-      text: '',
-      author: '',
-      category: '',
-    };
-
-    if (text && text.length < 2) {
-      newErrors.text = 'Text must be at least 2 characters long';
+  const getValidationMessage = (
+    name: keyof createSearchQueryInterface,
+    value: string
+  ): string | undefined => {
+    switch (name) {
+      case 'text':
+        if (value && value.length < 2) {
+          return 'Text must be at least 2 characters long';
+        }
+        break;
+      case 'author':
+        if (value && value.length < 2) {
+          return 'Author must be at least 2 characters long';
+        }
+        break;
+      case 'category':
+        if (value && !CATEGORY_NAME_REGEX.test(value)) {
+          return 'Category can only contain lowercase letters, numbers, and dashes';
+        }
+        break;
     }
 
-    if (author && author.length < 2) {
-      newErrors.author = 'Author must be at least 2 characters long';
-    }
-
-    if (category && !CATEGORY_NAME_REGEX.test(category)) {
-      newErrors.category =
-        'Category can only contain lowercase letters, numbers, and dashes';
-    }
-
-    return newErrors;
+    return undefined;
   };
 
-  const handleInpuChange = (name: string, value: string) => {
+  const handleInputChange = (
+    name: keyof createSearchQueryInterface,
+    value: string
+  ) => {
     switch (name) {
       case 'text':
         setText(value);
@@ -102,7 +108,17 @@ function Search() {
       default:
         break;
     }
-    setErrors(validationInputs());
+    setEmpty(null);
+    const errorMessage = getValidationMessage(name, value);
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      if (errorMessage) {
+        newErrors[name] = errorMessage;
+      } else {
+        newErrors[name] = '';
+      }
+      return newErrors;
+    });
   };
 
   return (
@@ -115,7 +131,7 @@ function Search() {
             id="text"
             name="text"
             value={text}
-            onChange={(e) => handleInpuChange('text', e.target.value)}
+            onChange={(e) => handleInputChange('text', e.target.value)}
             placeholder="Search by quote text..."
             label="Quote Text"
           />
@@ -128,7 +144,7 @@ function Search() {
             id="author"
             name="author"
             value={author}
-            onChange={(e) => handleInpuChange('author', e.target.value)}
+            onChange={(e) => handleInputChange('author', e.target.value)}
             placeholder="Search by author name..."
             label="Author Name"
           />
@@ -141,7 +157,7 @@ function Search() {
             id="category"
             name="category"
             value={category}
-            onChange={(e) => handleInpuChange('category', e.target.value)}
+            onChange={(e) => handleInputChange('category', e.target.value)}
             placeholder="Search by category..."
             label="Category"
           />
@@ -149,8 +165,8 @@ function Search() {
             <p className="text-red-500 text-base">{errors.category}</p>
           )}
         </div>
+        {empty && <p className="text-red-500 text-base">{empty}</p>}
       </div>
-
       <Button onClick={handleSearch} text="Search Quotes" />
 
       {/* Display loading skeletons - only for quote cards */}
