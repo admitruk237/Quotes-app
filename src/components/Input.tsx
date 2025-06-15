@@ -18,7 +18,7 @@ function Input({
   label,
 }: InputPropsType) {
   return (
-    <div className="mb-4">
+    <div>
       <label
         htmlFor={id} // Fixed: now uses the id prop instead of hardcoded "text"
         className="block text-sm font-medium text-gray-700 mb-2"
