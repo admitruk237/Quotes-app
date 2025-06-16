@@ -9,5 +9,4 @@ export interface createSearchQueryInterface {
   text: string;
   author: string;
   category: string;
-  empty?: string;
 }

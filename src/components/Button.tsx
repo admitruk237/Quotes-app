@@ -1,13 +1,29 @@
 type ButtonPropsType = {
   onClick: () => void;
   text: string;
+  className?: string;
+  variant?: 'primary' | 'secondary';
 };
 
 function Button(props: ButtonPropsType) {
+  const { variant = 'primary' } = props;
+
+  const baseStyles =
+    'py-3 px-7 rounded-2xl cursor-pointer transition-all duration-300 font-medium';
+
+  const variantStyles = {
+    primary:
+      'bg-violet-600 text-white border border-violet-600 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white',
+    secondary:
+      'bg-transparent text-violet-600 border border-violet-600 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white',
+  };
+
   return (
-    <div className="text-center mb-10">
+    <div className={`text-center ${props.className ?? ''}`}>
       <button
-        className="py-3 px-7 text-white rounded-2xl bg-violet-900 cursor-pointer transition-colors duration-300 hover:bg-violet-700"
+        className={`${baseStyles} ${variantStyles[variant]} ${
+          props.className ?? ''
+        }`}
         onClick={props.onClick}
       >
         {props.text}
