@@ -106,6 +106,15 @@ function Search() {
     }
   };
 
+  const handleClearInputs = () => {
+    setText('');
+    setAuthor('');
+    setCategory('');
+    setButtonSearchClicked(false);
+    setSearchSubmitted(false);
+    setQuotes([]);
+  };
+
   const getValidationMessage = (
     name: keyof createSearchQueryInterface,
     value: string
@@ -152,7 +161,9 @@ function Search() {
         hideProgressBar={false}
       />
       <Title text="Search Quotes" />
+
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_0.5fr] gap-4 mb-6 relative">
+
         <div className="mb-0">
           <Input
             id="text"
@@ -207,7 +218,15 @@ function Search() {
           label="Limit"
         />
       </div>
-      <Button onClick={handleSearch} text="Search Quotes" />
+
+      <div className="flex gap-4 flex-row justify-center md:gap-10 flex-wrap">
+        <Button onClick={handleSearch} text="Search Quotes" />
+        <Button
+          onClick={handleClearInputs}
+          text="Clear Inputs Field"
+          variant="secondary"
+        />
+      </div>
 
       {/* Display loading skeletons - only for quote cards */}
       {isLoading && (

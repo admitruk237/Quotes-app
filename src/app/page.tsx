@@ -32,7 +32,11 @@ export default function Home() {
   return (
     <div className="p-4">
       <Title text="Quotes frontend app" />
-      <Button onClick={fetchQuotes} text="Get Random Quotes" />
+      <Button
+        className="mb-10"
+        onClick={fetchQuotes}
+        text="Get Random Quotes"
+      />
       {isLoading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {Array.from({ length: 10 }).map((_, index) => (
