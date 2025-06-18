@@ -14,7 +14,7 @@ export default function Home() {
   const fetchQuotes = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_ENDPOINTS.ALL_QUOTES}?limit=10`);
+      const response = await fetch(`${API_ENDPOINTS.RANDOM_QUOTES}?limit=10`);
       const data = await response.json();
 
       setQuotes(data);

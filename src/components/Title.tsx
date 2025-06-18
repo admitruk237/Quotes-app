@@ -7,7 +7,7 @@ type TitlePropsType = {
 function Title({ text }: TitlePropsType) {
   return (
     <div>
-      <h1 className="text-center text-3xl mb-6">{text}</h1>
+      <h1 className="text-center text-3xl mb-6 sm:mb-10">{text}</h1>
     </div>
   );
 }
