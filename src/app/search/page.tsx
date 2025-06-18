@@ -8,7 +8,6 @@ import Button from '@/components/Button';
 import Quotes from '@/components/Quotes';
 import Input from '@/components/Input';
 import Title from '@/components/Title';
-
 import { API_ENDPOINTS } from '@/constants/api';
 import {
   createSearchQueryInterface,
@@ -105,15 +104,6 @@ function Search() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleClearInputs = () => {
-    setText('');
-    setAuthor('');
-    setCategory('');
-    setButtonSearchClicked(false);
-    setSearchSubmitted(false);
-    setQuotes([]);
   };
 
   const getValidationMessage = (
