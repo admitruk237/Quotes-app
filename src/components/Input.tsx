@@ -3,10 +3,10 @@ import React, { ChangeEvent } from 'react';
 interface InputPropsType {
   id: string;
   name: string;
-  value: string; // Changed from searchData to value
+  value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
-  label: string; // Added label prop
+  label: string;
 }
 
 function Input({

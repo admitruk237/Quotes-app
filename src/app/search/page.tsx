@@ -1,13 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@/components/Button';
-import Input from '@/components/Input';
-import Quotes from '@/components/Quotes';
-import Title from '@/components/Title';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import QuoteCardSkeleton from '@/components/QuoteCardSkeleton';
+import Button from '@/components/Button';
+import Quotes from '@/components/Quotes';
+import Input from '@/components/Input';
+import Title from '@/components/Title';
 import { API_ENDPOINTS } from '@/constants/api';
-import { createSearchQueryInterface, Quote } from '@/types/interfaces';
+import {
+  createSearchQueryInterface,
+  ErrorResponse,
+  Quote,
+} from '@/types/interfaces';
 
 //Regex for category validation
 const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/;
@@ -16,6 +22,7 @@ const createSearchQuery = ({
   text,
   author,
   category,
+  limit,
 }: createSearchQueryInterface) => {
   const params = new URLSearchParams();
 
@@ -23,7 +30,9 @@ const createSearchQuery = ({
   if (author) params.append('author', author);
   if (category) params.append('category', category);
 
-  params.append('limit', '10');
+  limit
+    ? params.append('limit', limit.toString())
+    : params.append('limit', '10');
   return params;
 };
 
@@ -31,6 +40,7 @@ function Search() {
   const [text, setText] = useState<string>('');
   const [author, setAuthor] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [limit, setLimit] = useState<string>('');
   const [searchSubmitted, setSearchSubmitted] = useState<boolean>(false);
   const [buttonSearchClicked, setButtonSearchClicked] =
     useState<boolean>(false);
@@ -42,6 +52,7 @@ function Search() {
     text: '',
     author: '',
     category: '',
+    limit: '',
   });
 
   const handleSearch = async () => {
@@ -56,27 +67,43 @@ function Search() {
     }
 
     try {
-      setErrors({ text: '', author: '', category: '' });
+      setErrors({ text: '', author: '', category: '', limit: '' }); // Reset errors
       setIsLoading(true);
       setSearchSubmitted(true);
-      const query = createSearchQuery({ text, author, category });
+      const query = createSearchQuery({
+        text,
+        author,
+        category,
+        limit: limit.toString(),
+      });
       const response = await fetch(`${API_ENDPOINTS.ALL_QUOTES}?${query}`);
+
+      // Procesingof the potential server-side input validation errors
+      if (!response.ok) {
+        const errorData: ErrorResponse = await response.json();
+        if (!errorData.errors) {
+          toast.error('An unexpected error occurred.');
+          return;
+        }
+        const errorMessage = errorData.errors
+          .filter((err) => err.type === 'field')
+          .map((err) => `${err.msg} (${err.path}, ${err.value})`);
+        errorMessage.forEach((msg) => {
+          toast.error(msg);
+        });
+        return;
+      }
+
       const data = await response.json();
       setQuotes(data);
     } catch (error) {
-      console.log(error);
+      toast.error(
+        error instanceof Error ? error.message : 'An unexpected error occurred'
+      );
+      console.error('Search error:', error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleClearInputs = () => {
-    setText('');
-    setAuthor('');
-    setCategory('');
-    setButtonSearchClicked(false);
-    setSearchSubmitted(false);
-    setQuotes([]);
   };
 
   const getValidationMessage = (
@@ -105,6 +132,7 @@ function Search() {
     if (name === 'text') setText(value);
     if (name === 'author') setAuthor(value);
     if (name === 'category') setCategory(value);
+    if (name === 'limit') setLimit(value.toString());
 
     setInputIsEmpty(null);
 
@@ -118,9 +146,13 @@ function Search() {
 
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+      />
       <Title text="Search Quotes" />
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 relative">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_0.5fr] gap-4 mb-6 relative">
         <div className="mb-0">
           <Input
             id="text"
@@ -165,16 +197,17 @@ function Search() {
             {inputIsEmpty}
           </p>
         )}
-      </div>
 
-      <div className="flex gap-4 flex-row justify-center md:gap-10 flex-wrap">
-        <Button onClick={handleSearch} text="Search Quotes" />
-        <Button
-          onClick={handleClearInputs}
-          text="Clear Inputs Field"
-          variant="secondary"
+        <Input
+          id="limit"
+          name="limit"
+          value={limit.toString()}
+          onChange={(e) => handleInputChange('limit', e.target.value)}
+          placeholder="Enter limit..."
+          label="Limit"
         />
       </div>
+      <Button onClick={handleSearch} text="Search Quotes" />
 
       {/* Display loading skeletons - only for quote cards */}
       {isLoading && (
