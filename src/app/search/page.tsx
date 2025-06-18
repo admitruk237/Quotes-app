@@ -78,7 +78,7 @@ function Search() {
       });
       const response = await fetch(`${API_ENDPOINTS.ALL_QUOTES}?${query}`);
 
-      // Processing of the potential server-side input validation errors
+      // Procesingof the potential server-side input validation errors
       if (!response.ok) {
         const errorData: ErrorResponse = await response.json();
         if (!errorData.errors) {
@@ -104,6 +104,15 @@ function Search() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClearInputs = () => {
+    setText('');
+    setAuthor('');
+    setCategory('');
+    setButtonSearchClicked(false);
+    setSearchSubmitted(false);
+    setQuotes([]);
   };
 
   const getValidationMessage = (
@@ -154,6 +163,7 @@ function Search() {
       <Title text="Search Quotes" />
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_0.5fr] gap-4 mb-6 relative">
+
         <div className="mb-0">
           <Input
             id="text"
@@ -193,6 +203,11 @@ function Search() {
             <p className="text-red-500 text-base">{errors.category}</p>
           )}
         </div>
+        {inputIsEmpty && (
+          <p className="text-red-500 text-base absolute top-20 left-1.5">
+            {inputIsEmpty}
+          </p>
+        )}
 
         <Input
           id="limit"
@@ -202,15 +217,16 @@ function Search() {
           placeholder="Enter limit..."
           label="Limit"
         />
-
-        {inputIsEmpty && (
-          <p className="text-red-500 text-base absolute top-20 left-1.5">
-            {inputIsEmpty}
-          </p>
-        )}
       </div>
 
-      <Button onClick={handleSearch} text="Search Quotes" />
+      <div className="flex gap-4 flex-row justify-center md:gap-10 flex-wrap">
+        <Button onClick={handleSearch} text="Search Quotes" />
+        <Button
+          onClick={handleClearInputs}
+          text="Clear Inputs Field"
+          variant="secondary"
+        />
+      </div>
 
       {/* Display loading skeletons - only for quote cards */}
       {isLoading && (
