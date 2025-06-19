@@ -29,14 +29,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-50`}
       >
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+        />
         <Header />
-
         <main className="@container max-w-7xl py-7 mx-auto px-4 sm:px-6 lg:px-8">
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-          />
           {children}
         </main>
       </body>
