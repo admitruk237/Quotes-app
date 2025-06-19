@@ -81,7 +81,7 @@ function Search() {
       // Procesingof the potential server-side input validation errors
       if (!response.ok) {
         const errorData: ErrorResponse = await response.json();
-        if (!errorData.errors) {
+        if (!errorData.errors || !Array.isArray(errorData.errors)) {
           toast.error('An unexpected error occurred.');
           return;
         }
@@ -110,6 +110,9 @@ function Search() {
     setText('');
     setAuthor('');
     setCategory('');
+    setLimit('');
+    setInputIsEmpty(null);
+    setErrors({ text: '', author: '', category: '', limit: '' });
     setButtonSearchClicked(false);
     setSearchSubmitted(false);
     setQuotes([]);
@@ -155,15 +158,9 @@ function Search() {
 
   return (
     <div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-      />
       <Title text="Search Quotes" />
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_0.5fr] gap-4 mb-6 relative">
-
         <div className="mb-0">
           <Input
             id="text"
