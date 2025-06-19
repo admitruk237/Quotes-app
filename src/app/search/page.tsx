@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QuoteCardSkeleton from '@/components/QuoteCardSkeleton';
 import Button from '@/components/Button';
@@ -118,6 +118,9 @@ function Search() {
     setQuotes([]);
   };
 
+  //I decided not to validate the limit input field, even though there is the server-side validation
+  //Limiit must be in range from 1 to 50
+  // This is done to be able to see  Toast notification in case of server-side validation error
   const getValidationMessage = (
     name: keyof createSearchQueryInterface,
     value: string
@@ -133,8 +136,6 @@ function Search() {
     if (name === 'category' && value && !CATEGORY_NAME_REGEX.test(value)) {
       return 'Category can only contain lowercase letters, numbers, and dashes';
     }
-
-    return undefined;
   };
 
   const handleInputChange = (
