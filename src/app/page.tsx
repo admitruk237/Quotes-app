@@ -6,6 +6,7 @@ import Title from '@/components/Title';
 import { API_ENDPOINTS } from '@/constants/api';
 import { Quote } from '@/types/interfaces';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Home() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
@@ -19,7 +20,9 @@ export default function Home() {
 
       setQuotes(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error instanceof Error ? error.message : 'An error occurred');
+      console.log('Error fetching quotes:', error);
+      setQuotes([]);
     } finally {
       setIsLoading(false);
     }
