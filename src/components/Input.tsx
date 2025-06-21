@@ -2,20 +2,22 @@ import React, { ChangeEvent } from 'react';
 
 interface InputPropsType {
   id: string;
-  name: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
   label: string;
+  showError: boolean;
+  errorMessage: string;
 }
 
 function Input({
   id,
-  name,
   value,
   onChange,
   placeholder,
   label,
+  showError,
+  errorMessage,
 }: InputPropsType) {
   return (
     <div>
@@ -28,12 +30,14 @@ function Input({
       <input
         type="text"
         id={id}
-        name={name}
         value={value} // Fixed: now uses value prop
         onChange={onChange}
         placeholder={placeholder}
         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors duration-200"
       />
+      {showError && errorMessage && (
+        <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+      )}
     </div>
   );
 }
