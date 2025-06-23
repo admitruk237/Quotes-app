@@ -46,9 +46,21 @@ function QuotePage(props: QuotePageProps) {
 
   return (
     <div>
-      <Title text={quote.text} />
-      <p>{quote.author} </p>
-      <p className="text-gray-500">Categories: {quote.categories}</p>
+      <Title text={quote.author} />
+      <p className="mb-2.5">{quote.text} </p>
+      <p className="text-gray-500">
+        Categories:{' '}
+        {quote.categories.map((category) => {
+          return (
+            <span
+              key={category}
+              className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full mr-2 mb-2"
+            >
+              {category}
+            </span>
+          );
+        })}
+      </p>
     </div>
   );
 }
