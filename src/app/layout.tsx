@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
-import { ToastContainer } from 'react-toastify';
+import ClientLayout from './ClientLayout';
+// Новий клієнтський компонент
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,15 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-50`}
       >
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-        />
-        <Header />
-        <main className="@container max-w-7xl py-7 mx-auto px-4 sm:px-6 lg:px-8">
-          {children}
-        </main>
+        <ClientLayout>
+          <Header />
+          <main className="@container max-w-7xl py-7 mx-auto px-4 sm:px-6 lg:px-8">
+            {children}
+          </main>
+        </ClientLayout>
       </body>
     </html>
   );
