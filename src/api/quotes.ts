@@ -9,28 +9,52 @@ const isValidId = (id: string): boolean => {
   const parsedId = parseInt(id, 10);
   return Number.isInteger(parsedId) && parsedId > 0;
 };
+// Результат що може містити або дані, або помилку
+interface QuoteResult {
+  success: boolean;
+  data?: Quote;
+  error?: string;
+}
 
-export const fetchQuote = async (quoteId: string): Promise<Quote> => {
+export const fetchQuoteResult = async (
+  quoteId: string
+): Promise<QuoteResult> => {
   if (!isValidId(quoteId)) {
-    throw new Error(`Invalid quote ID: ${quoteId}`);
+    return {
+      success: false,
+      error: `Invalid quote ID: ${quoteId}. Please provide a valid numeric ID.`,
+    };
   }
 
   try {
     const response = await fetch(`${API_ENDPOINTS.ALL_QUOTES}/${quoteId}`);
 
     if (!response || response.status === 404) {
-      throw new Error(`Quote with ID ${quoteId} not found`);
+      return {
+        success: false,
+        error: `Quote with ID ${quoteId} not found. Please check the ID and try again.`,
+      };
     }
 
     if (!response.ok) {
-      throw new Error(`Quote with ID ${quoteId}: Not Found`);
+      return {
+        success: false,
+        error: `Failed to load quote with ID ${quoteId}. Server responded with status ${response.status}.`,
+      };
     }
 
     const data: Quote = await response.json();
-    return data;
+    return {
+      success: true,
+      data,
+    };
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Failed to fetch quote';
-    throw new Error(errorMessage);
+    return {
+      success: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Network error occurred while fetching quote',
+    };
   }
 };
