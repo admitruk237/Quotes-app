@@ -54,18 +54,6 @@ export default function Error({ error, reset }: ErrorProps) {
         <Button onClick={handleTryAgain} text="Try Again" />
         <Button onClick={handleGoHome} text="Back to Home" />
       </div>
-
-      {process.env.NODE_ENV === 'development' && (
-        <details className="mt-8 text-left bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
-          <summary className="cursor-pointer font-medium text-red-600 dark:text-red-400 mb-2">
-            Error Details (Development Only)
-          </summary>
-          <pre className="text-xs text-gray-700 dark:text-gray-300 overflow-auto">
-            {error.message}
-            {error.stack && '\n\nStack trace:\n' + error.stack}
-          </pre>
-        </details>
-      )}
     </div>
   );
 }
