@@ -25,5 +25,7 @@ export const SEARCH_INPUT_CONFIG = [
     placeholder: 'Enter limit...',
     label: 'Limit',
     type: 'number',
+    min: 1,
+    max: 50,
   },
 ];

@@ -21,4 +21,10 @@ export const getValidationMessage = (
   if (name === 'limit' && value && !LIMIT_REGEX.test(value)) {
     return 'Limit must be a positive integer';
   }
+  if (name === 'limit' && value) {
+    const numValue = Number(value);
+    if (numValue < 1 || numValue > 50) {
+      return 'Limit must be for 1 to 50 quotes';
+    }
+  }
 };
