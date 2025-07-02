@@ -16,10 +16,9 @@ export default function ClientValidationHandler({
   const router = useRouter();
 
   useEffect(() => {
-    // Показуємо тост з помилкою
     toast.error(message, {
       position: 'top-right',
-      autoClose: 3000, // Зменшили час автозакриття
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -27,7 +26,6 @@ export default function ClientValidationHandler({
       toastId: 'validation-error',
     });
 
-    // Затримуємо редірект на 2 секунди, щоб користувач встиг прочитати тост
     const redirectTimeout = setTimeout(() => {
       router.replace('/404');
     }, 2000);
@@ -35,6 +33,5 @@ export default function ClientValidationHandler({
     return () => clearTimeout(redirectTimeout);
   }, [message, router]);
 
-  // Показуємо повідомлення поки чекаємо на редірект
   return <PageLoadingSpinner />;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import Title from '@/components/Title';
 import SearchForm from '@/components/SearchForm';
@@ -13,30 +13,39 @@ function Search() {
     formData,
     validationError,
     buttonSearchClicked,
+    shouldExecuteSearch,
     inputIsEmpty,
     handleInputChange,
     clearForm,
     validateForm,
-    setButtonSearchClicked,
+    handleSearchButtonClick,
   } = useSearchForm();
 
   const { quotes, isLoading, searchSubmitted, searchQuotes, clearResults } =
     useQuoteSearch();
 
-  const handleSearch = async () => {
-    setButtonSearchClicked(true);
-
-    if (!validateForm()) {
-      return;
-    }
-
-    await searchQuotes(formData);
-  };
+  const searchExecutedRef = useRef(false);
 
   const handleClearInputs = () => {
     clearForm();
     clearResults();
+    searchExecutedRef.current = false;
   };
+
+  useEffect(() => {
+    if (shouldExecuteSearch && !searchExecutedRef.current) {
+      const isValid = validateForm();
+
+      if (isValid) {
+        searchQuotes(formData);
+        searchExecutedRef.current = true;
+      }
+    }
+
+    if (shouldExecuteSearch) {
+      searchExecutedRef.current = false;
+    }
+  }, [shouldExecuteSearch, formData, validateForm, searchQuotes]);
 
   return (
     <div>
@@ -48,7 +57,7 @@ function Search() {
         buttonSearchClicked={buttonSearchClicked}
         inputIsEmpty={inputIsEmpty}
         onInputChange={handleInputChange}
-        onSearch={handleSearch}
+        onSearch={handleSearchButtonClick}
         onClear={handleClearInputs}
       />
 
