@@ -102,8 +102,9 @@ export const useSearchForm = () => {
   }, [formData, validationError]);
 
   const handleSearchButtonClick = useCallback(() => {
+    setButtonSearchClicked(true);
+
     if (validateForm()) {
-      setButtonSearchClicked(true);
       setShouldExecuteSearch(true);
     }
   }, [validateForm]);

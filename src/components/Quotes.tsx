@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CategoriesWithCollapsible from './CategoriesWithColaplible';
 
 type QuotesPropsType = {
   quote: {
@@ -38,16 +39,7 @@ function Quotes({ quote }: QuotesPropsType) {
               : `${quote.text.slice(0, 199)}...`}
           </p>
           <p className="text-right mb-10 font-semibold">— {quote.author}</p>
-          <div className="flex flex-wrap mt-2">
-            {quote.categories.map((category) => (
-              <span
-                key={category}
-                className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full mr-2 mb-2"
-              >
-                {category}
-              </span>
-            ))}
-          </div>
+          <CategoriesWithCollapsible categories={quote.categories} />
         </div>
       </Link>
     </div>

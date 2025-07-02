@@ -2,7 +2,7 @@ export interface Quote {
   id: string;
   text: string;
   author: string;
-  categories: string[]; // Assuming categories could be an array of strings
+  categories: string[];
 }
 
 export interface createSearchQueryInterface {
