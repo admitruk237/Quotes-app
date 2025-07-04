@@ -1,4 +1,3 @@
-// components/QuoteError.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';

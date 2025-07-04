@@ -1,10 +1,9 @@
-// components/ClientValidationHandler.tsx
 'use client';
 
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import PageLoadingSpinner from './PreloadingSpiner';
+import PageLoadingSpinner from '@/components/ui/PreloadingSpiner';
 
 interface ClientValidationHandlerProps {
   message: string;

@@ -40,7 +40,10 @@ export const useSearchForm = () => {
 
     Object.keys(data).forEach((key) => {
       const fieldName = key as keyof createSearchQueryInterface;
-      const errorMessage = getValidationMessage(fieldName, data[fieldName]);
+      const errorMessage = getValidationMessage(
+        fieldName,
+        data[fieldName] ?? ''
+      );
       errors[fieldName] = errorMessage || '';
     });
 

@@ -3,7 +3,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from './ui/collapsible';
+} from './collapsible';
 import { useEffect, useState } from 'react';
 
 interface CategoriesWithCollapsibleProps {

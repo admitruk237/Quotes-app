@@ -1,14 +1,14 @@
 'use client';
-import Button from '@/components/Button';
-import QuoteCardSkeleton from '@/components/QuoteCardSkeleton';
-import Quotes from '@/components/Quotes';
-import Title from '@/components/Title';
+import Button from '@/components/ui/Button';
+import QuoteCardSkeleton from '@/components/sections/QuoteCardSkeleton';
+import Quotes from '@/components/ui/Quote';
+import Title from '@/components/sections/Title';
 import { API_ENDPOINTS } from '@/constants/api';
 import { Quote } from '@/types/interfaces';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export default function Home() {
+export default function RandomQuotesPage() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

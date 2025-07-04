@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import Header from '@/components/Header';
+import Header from '@/components/sections/Header';
 import ClientLayout from './ClientLayout';
 // Новий клієнтський компонент
 

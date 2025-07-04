@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
