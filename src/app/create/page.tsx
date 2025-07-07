@@ -1,15 +1,13 @@
 'use client';
 import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { toast } from 'react-toastify';
 import Title from '@/components/sections/Title';
 import { API_ENDPOINTS } from '@/constants/api';
-import { toast } from 'react-toastify';
-import App from 'next/app';
-
 import { createSearchQueryInterface } from '@/types/interfaces';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import { CATEGORY_NAME_REGEX } from '@/utils/validationUtils';
 
 export default function CreateQuotePage() {
   const [text, setText] = useState<string>('');
@@ -39,6 +37,11 @@ export default function CreateQuotePage() {
     }
     if (!categories.trim()) {
       errors.category = 'There must be at least one category.';
+    }
+
+    if (!CATEGORY_NAME_REGEX.test(categories)) {
+      errors.category =
+        'Category can only contain lowercase letters, numbers, and dashes';
     }
 
     setValidationErrors(errors);

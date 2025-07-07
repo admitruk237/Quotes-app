@@ -1,9 +1,9 @@
 import { createSearchQueryInterface } from '@/types/interfaces';
 
-const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/;
+export const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/;
 const LIMIT_REGEX = /^\d+$/;
 
-export const getValidationMessage = (
+export const getSearchValidationMessage = (
   name: keyof createSearchQueryInterface,
   value: string
 ): string | undefined => {

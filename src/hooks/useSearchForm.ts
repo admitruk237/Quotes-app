@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { createSearchQueryInterface } from '@/types/interfaces';
-import { getValidationMessage } from '@/utils/validationUtils';
+
 import { useSearchParams } from 'next/navigation';
+import { getSearchValidationMessage } from '@/utils/validationUtils';
 
 export const useSearchForm = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +41,7 @@ export const useSearchForm = () => {
 
     Object.keys(data).forEach((key) => {
       const fieldName = key as keyof createSearchQueryInterface;
-      const errorMessage = getValidationMessage(
+      const errorMessage = getSearchValidationMessage(
         fieldName,
         data[fieldName] ?? ''
       );
@@ -68,7 +69,7 @@ export const useSearchForm = () => {
       setInputIsEmpty(null);
       setShouldExecuteSearch(false);
 
-      const errorMessage = getValidationMessage(name, value);
+      const errorMessage = getSearchValidationMessage(name, value);
       setValidationError((prev) => ({
         ...prev,
         [name]: errorMessage || '',
