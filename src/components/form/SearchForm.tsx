@@ -1,6 +1,6 @@
 import React from 'react';
-import Input from '@/components/Input';
-import Button from '@/components/Button';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
 import { SEARCH_INPUT_CONFIG } from '@/config/searchConfig';
 import { createSearchQueryInterface } from '@/types/interfaces';
 
@@ -44,7 +44,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
             label={config.label}
             showError={buttonSearchClicked}
             errorMessage={
-              validationError[config.id as keyof createSearchQueryInterface]
+              validationError[config.id as keyof createSearchQueryInterface] ||
+              ''
             }
           />
         ))}

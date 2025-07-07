@@ -1,6 +1,6 @@
 import React from 'react';
-import QuoteCardSkeleton from '@/components/QuoteCardSkeleton';
-import Quotes from '@/components/Quotes';
+import QuoteCardSkeleton from '@/components/sections/QuoteCardSkeleton';
+import Quotes from '@/components/ui/Quote';
 import { Quote } from '@/types/interfaces';
 
 interface SearchResultsProps {

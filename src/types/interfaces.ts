@@ -9,7 +9,7 @@ export interface createSearchQueryInterface {
   text: string;
   author: string;
   category: string;
-  limit: string;
+  limit?: string;
 }
 
 export interface ServerError {

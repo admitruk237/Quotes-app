@@ -10,7 +10,7 @@ type QuotesPropsType = {
   };
 };
 
-function Quotes({ quote }: QuotesPropsType) {
+function Quote({ quote }: QuotesPropsType) {
   return (
     <div className="relative">
       <Link href={`/quotes/${quote.id}`}>
@@ -46,4 +46,4 @@ function Quotes({ quote }: QuotesPropsType) {
   );
 }
 
-export default Quotes;
+export default Quote;

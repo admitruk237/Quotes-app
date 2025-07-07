@@ -25,6 +25,9 @@ function Header() {
             <Link href="/search" className={linkClasses}>
               Search
             </Link>
+            <Link href="/create" className={linkClasses}>
+              Create New
+            </Link>
           </nav>
 
           {/* Empty div for balance (optional) */}
