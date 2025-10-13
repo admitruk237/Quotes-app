@@ -1,18 +1,16 @@
-'use client';
+'use client'
 
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import PageLoadingSpinner from '@/components/ui/PreloadingSpiner';
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
+import PageLoadingSpinner from '@/components/PageLoadingSpinner'
 
-interface ClientValidationHandlerProps {
-  message: string;
+type Props = {
+  message: string
 }
 
-export default function ClientValidationHandler({
-  message,
-}: ClientValidationHandlerProps) {
-  const router = useRouter();
+export default function ClientValidationHandler({ message }: Props) {
+  const router = useRouter()
 
   useEffect(() => {
     toast.error(message, {
@@ -23,14 +21,14 @@ export default function ClientValidationHandler({
       pauseOnHover: true,
       draggable: true,
       toastId: 'validation-error',
-    });
+    })
 
     const redirectTimeout = setTimeout(() => {
-      router.replace('/404');
-    }, 2000);
+      router.replace('/404')
+    }, 2000)
 
-    return () => clearTimeout(redirectTimeout);
-  }, [message, router]);
+    return () => clearTimeout(redirectTimeout)
+  }, [message, router])
 
-  return <PageLoadingSpinner />;
+  return <PageLoadingSpinner />
 }

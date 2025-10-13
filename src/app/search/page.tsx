@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import React, { useEffect, useRef } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
-import Title from '@/components/sections/Title';
-import SearchForm from '@/components/form/SearchForm';
-import SearchResults from '@/components/sections/SearchResults';
-import { useSearchForm } from '@/hooks/useSearchForm';
-import { useQuoteSearch } from '@/hooks/useQuoteSearch';
-import { SEARCH_INPUT_CONFIG } from '@/config/searchConfig';
+import React, { useEffect, useRef } from 'react'
+import 'react-toastify/dist/ReactToastify.css'
+import Title from '@/components/sections/Title'
+import SearchForm from '@/components/form/FormFields'
+import SearchResults from '@/components/sections/SearchResults'
+import { useSearchForm } from '@/hooks/useSearchForm'
+import { useQuoteSearch } from '@/hooks/useQuoteSearch'
+import { SEARCH_INPUT_CONFIG } from '@/config/searchConfig'
 
 function SearchQuotesPage() {
   const {
@@ -20,33 +20,33 @@ function SearchQuotesPage() {
     clearForm,
     validateForm,
     handleSearchButtonClick,
-  } = useSearchForm();
+  } = useSearchForm()
 
   const { quotes, isLoading, searchSubmitted, searchQuotes, clearResults } =
-    useQuoteSearch();
+    useQuoteSearch()
 
-  const searchExecutedRef = useRef(false);
+  const searchExecutedRef = useRef(false)
 
   const handleClearInputs = () => {
-    clearForm();
-    clearResults();
-    searchExecutedRef.current = false;
-  };
+    clearForm()
+    clearResults()
+    searchExecutedRef.current = false
+  }
 
   useEffect(() => {
     if (shouldExecuteSearch && !searchExecutedRef.current) {
-      const isValid = validateForm();
+      const isValid = validateForm()
 
       if (isValid) {
-        searchQuotes(formData);
-        searchExecutedRef.current = true;
+        searchQuotes(formData)
+        searchExecutedRef.current = true
       }
     }
 
     if (shouldExecuteSearch) {
-      searchExecutedRef.current = false;
+      searchExecutedRef.current = false
     }
-  }, [shouldExecuteSearch, formData, validateForm, searchQuotes]);
+  }, [shouldExecuteSearch, formData, validateForm, searchQuotes])
 
   return (
     <div>
@@ -60,6 +60,7 @@ function SearchQuotesPage() {
         onInputChange={handleInputChange}
         onSearch={handleSearchButtonClick}
         onClear={handleClearInputs}
+        inputs={SEARCH_INPUT_CONFIG}
       />
 
       <SearchResults
@@ -68,7 +69,7 @@ function SearchQuotesPage() {
         searchSubmitted={searchSubmitted}
       />
     </div>
-  );
+  )
 }
 
-export default SearchQuotesPage;
+export default SearchQuotesPage

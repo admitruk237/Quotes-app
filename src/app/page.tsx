@@ -1,36 +1,17 @@
-'use client';
-import Button from '@/components/ui/Button';
-import QuoteCardSkeleton from '@/components/sections/QuoteCardSkeleton';
-import Quotes from '@/components/ui/Quote';
-import Title from '@/components/sections/Title';
-import { API_ENDPOINTS } from '@/constants/api';
-import { Quote } from '@/types/interfaces';
-import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+'use client'
+import { useEffect } from 'react'
+import Button from '@/components/ui/button'
+import QuoteCardSkeleton from '@/components/sections/QuoteCardSkeleton'
+import Title from '@/components/sections/Title'
+import Quotes from '@/components/sections/Quotes'
+import useQuotes from '@/hooks/useQuotes'
 
 export default function RandomQuotesPage() {
-  const [quotes, setQuotes] = useState<Quote[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const fetchQuotes = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`${API_ENDPOINTS.RANDOM_QUOTES}?limit=10`);
-      const data = await response.json();
-
-      setQuotes(data);
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'An error occurred');
-      console.log('Error fetching quotes:', error);
-      setQuotes([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { quotes, isLoading, fetchQuotes } = useQuotes()
 
   useEffect(() => {
-    fetchQuotes();
-  }, []);
+    fetchQuotes()
+  }, [])
 
   return (
     <div className="p-4">
@@ -47,10 +28,12 @@ export default function RandomQuotesPage() {
           ))}
         </div>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {!isLoading &&
-          quotes.map((quote) => <Quotes key={quote.id} quote={quote} />)}
-      </div>
+      {!isLoading && (
+        <Quotes
+          quotes={quotes}
+          isLoading={isLoading}
+        />
+      )}
     </div>
-  );
+  )
 }
