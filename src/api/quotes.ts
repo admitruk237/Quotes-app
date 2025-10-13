@@ -1,7 +1,6 @@
 import { Quote } from '@/types/interfaces';
 import { API_ENDPOINTS } from '@/constants/api';
 
-// Строга валідація ID
 export const isValidQuoteId = (id: string): boolean => {
   if (!id || typeof id !== 'string') {
     return false;
@@ -84,7 +83,6 @@ export const fetchQuoteResult = async (
       data,
     };
   } catch (error) {
-    // Мережева помилка
     return {
       success: false,
       error:

@@ -1,36 +1,38 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react'
+
+import { useEffect, useState } from 'react'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from './collapsible';
-import { useEffect, useState } from 'react';
+} from '../ui/collapsible'
 
-interface CategoriesWithCollapsibleProps {
-  categories: string[];
+type Props = {
+  categories: string[]
 }
 
-const CategoriesWithCollapsible = ({
-  categories,
-}: CategoriesWithCollapsibleProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [visibleCategories, setVisibleCategories] = useState<string[]>([]);
-  const [hiddenCategories, setHiddenCategories] = useState<string[]>([]);
+const CategoriesWithCollapsible = ({ categories }: Props) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [visibleCategories, setVisibleCategories] = useState<string[]>([])
+  const [hiddenCategories, setHiddenCategories] = useState<string[]>([])
 
   useEffect(() => {
-    const maxVisible = 8;
+    const maxVisible = 8
 
     if (categories.length > maxVisible) {
-      setVisibleCategories(categories.slice(0, maxVisible));
-      setHiddenCategories(categories.slice(maxVisible));
+      setVisibleCategories(categories.slice(0, maxVisible))
+      setHiddenCategories(categories.slice(maxVisible))
     } else {
-      setVisibleCategories(categories);
-      setHiddenCategories([]);
+      setVisibleCategories(categories)
+      setHiddenCategories([])
     }
-  }, [categories]);
+  }, [categories])
 
   return (
-    <Collapsible open={isOpen} className="mt-2">
+    <Collapsible
+      open={isOpen}
+      className="mt-2"
+    >
       <div className="flex flex-wrap">
         {visibleCategories.map((category) => (
           <span
@@ -58,9 +60,9 @@ const CategoriesWithCollapsible = ({
       {hiddenCategories.length > 0 && (
         <CollapsibleTrigger
           onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsOpen((prev) => !prev);
+            e.preventDefault()
+            e.stopPropagation()
+            setIsOpen((prev) => !prev)
           }}
           className="flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700 mt-1 transition-colors cursor-pointer"
         >
@@ -75,7 +77,7 @@ const CategoriesWithCollapsible = ({
         </CollapsibleTrigger>
       )}
     </Collapsible>
-  );
-};
+  )
+}
 
-export default CategoriesWithCollapsible;
+export default CategoriesWithCollapsible

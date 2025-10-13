@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import Button from '@/components/ui/Button';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
+import Button from '@/components/ui/button'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 interface ErrorProps {
-  error: Error;
-  reset: () => void;
+  error: Error
+  reset: () => void
 }
 
 export default function Error({ error, reset }: ErrorProps) {
@@ -16,24 +16,23 @@ export default function Error({ error, reset }: ErrorProps) {
       {
         autoClose: 5000,
       }
-    );
+    )
 
-    // Cleanup
     return () => {
-      toast.dismiss(toastId);
-    };
-  }, [error]);
+      toast.dismiss(toastId)
+    }
+  }, [error])
 
   const handleGoHome = () => {
-    toast.dismiss();
+    toast.dismiss()
 
-    window.location.href = '/';
-  };
+    window.location.href = '/'
+  }
 
   const handleTryAgain = () => {
-    toast.dismiss();
-    reset();
-  };
+    toast.dismiss()
+    reset()
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-10 text-center">
@@ -51,9 +50,15 @@ export default function Error({ error, reset }: ErrorProps) {
       </div>
 
       <div className="flex justify-center gap-4">
-        <Button onClick={handleTryAgain} text="Try Again" />
-        <Button onClick={handleGoHome} text="Back to Home" />
+        <Button
+          onClick={handleTryAgain}
+          text="Try Again"
+        />
+        <Button
+          onClick={handleGoHome}
+          text="Back to Home"
+        />
       </div>
     </div>
-  );
+  )
 }

@@ -1,23 +1,21 @@
-import React from 'react';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import { SEARCH_INPUT_CONFIG } from '@/config/searchConfig';
-import { createSearchQueryInterface } from '@/types/interfaces';
+import React, { ChangeEvent } from 'react'
+import Input from '@/components/ui/Input'
+import Button from '@/components/ui/button'
 
-interface SearchFormProps {
-  formData: any;
-  validationError: createSearchQueryInterface;
-  buttonSearchClicked: boolean;
-  inputIsEmpty: string | null;
-  onInputChange: (
-    name: keyof createSearchQueryInterface,
-    value: string
-  ) => void;
-  onSearch: () => void;
-  onClear: () => void;
+import { createSearchQueryInterface, InputType } from '@/types/interfaces'
+
+type Props = {
+  formData: any
+  validationError: createSearchQueryInterface
+  buttonSearchClicked: boolean
+  inputIsEmpty: string | null
+  onInputChange: (name: keyof createSearchQueryInterface, value: string) => void
+  onSearch: () => void
+  onClear?: () => void
+  inputs: InputType[]
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({
+const FormFields = ({
   formData,
   validationError,
   buttonSearchClicked,
@@ -25,16 +23,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
   onInputChange,
   onSearch,
   onClear,
-}) => {
+  inputs,
+}: Props) => {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 mb-10 relative md:grid-cols-[1fr_1fr_1fr_0.5fr]">
-        {SEARCH_INPUT_CONFIG.map((config) => (
+        {inputs.map((config) => (
           <Input
             key={config.id}
             id={config.id}
             value={formData[config.id]}
-            onChange={(e) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               onInputChange(
                 config.id as keyof createSearchQueryInterface,
                 e.target.value
@@ -58,7 +57,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </div>
 
       <div className="flex gap-4 flex-row justify-center md:gap-10 flex-wrap">
-        <Button onClick={onSearch} text="Search Quotes" />
+        <Button
+          onClick={onSearch}
+          text="Search Quotes"
+        />
         <Button
           onClick={onClear}
           text="Clear Inputs Field"
@@ -66,7 +68,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SearchForm;
+export default FormFields

@@ -1,62 +1,62 @@
-'use client';
-import { ChangeEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
-import Title from '@/components/sections/Title';
-import { API_ENDPOINTS } from '@/constants/api';
-import { createSearchQueryInterface } from '@/types/interfaces';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import { CATEGORY_NAME_REGEX } from '@/utils/validationUtils';
+'use client'
+import { ChangeEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
+import Title from '@/components/sections/Title'
+import { API_ENDPOINTS } from '@/constants/api'
+import { createSearchQueryInterface } from '@/types/interfaces'
+import Input from '@/components/ui/Input'
+import Button from '@/components/ui/button'
+import { CATEGORY_NAME_REGEX } from '@/utils/validationUtils'
 
 export default function CreateQuotePage() {
-  const [text, setText] = useState<string>('');
-  const [author, setAuthor] = useState<string>('');
-  const [categories, setCategories] = useState<string>('');
-  const [buttonAddClicked, setButtonAddClicked] = useState(false);
+  const [text, setText] = useState<string>('')
+  const [author, setAuthor] = useState<string>('')
+  const [categories, setCategories] = useState<string>('')
+  const [buttonAddClicked, setButtonAddClicked] = useState<boolean>(false)
   const [validationErrors, setValidationErrors] =
     useState<createSearchQueryInterface>({
       text: '',
       author: '',
       category: '',
-    });
+    })
 
-  const route = useRouter();
+  const route = useRouter()
 
   const isFormValid = () => {
     const errors: createSearchQueryInterface = {
       text: '',
       author: '',
       category: '',
-    };
+    }
     if (text.length < 10) {
-      errors.text = 'Text must be at least 10 characters long.';
+      errors.text = 'Text must be at least 10 characters long.'
     }
     if (author.length < 2 || author.length > 255) {
-      errors.author = 'Author must be between 2 and 255 characters long.';
+      errors.author = 'Author must be between 2 and 255 characters long.'
     }
     if (!categories.trim()) {
-      errors.category = 'There must be at least one category.';
+      errors.category = 'There must be at least one category.'
     }
 
     if (!CATEGORY_NAME_REGEX.test(categories)) {
       errors.category =
-        'Category can only contain lowercase letters, numbers, and dashes';
+        'Category can only contain lowercase letters, numbers, and dashes'
     }
 
-    setValidationErrors(errors);
-    return !errors.text && !errors.author && !errors.category;
-  };
+    setValidationErrors(errors)
+    return !errors.text && !errors.author && !errors.category
+  }
 
   const handleSubmit = async () => {
-    setButtonAddClicked(true);
-    if (!isFormValid()) return;
+    setButtonAddClicked(true)
+    if (!isFormValid()) return
 
     const payload = {
       text,
       author,
       categories: categories.split(',').map((cat) => cat.trim()),
-    };
+    }
     try {
       const response = await fetch(API_ENDPOINTS.ALL_QUOTES, {
         method: 'POST',
@@ -64,29 +64,27 @@ export default function CreateQuotePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
-      });
+      })
       if (!response.ok) {
-        throw new Error('Failed to create quote');
+        throw new Error('Failed to create quote')
       }
 
-      const data = await response.json();
-      toast.success('Quote created successfully!');
-      setText('');
-      setAuthor('');
-      setCategories('');
-      setButtonAddClicked(false);
+      const data = await response.json()
+      toast.success('Quote created successfully!')
+      setText('')
+      setAuthor('')
+      setCategories('')
+      setButtonAddClicked(false)
 
-      // Redirect to the newly created quote page
-      // Assuming the API returns the created quote with an `id` field
-      route.push(`/quotes/${data.id}`);
+      route.push(`/quotes/${data.id}`)
     } catch (error) {
       toast.error(
         error instanceof Error
           ? error.message
           : 'An error occurred while creating the quote.'
-      );
+      )
     }
-  };
+  }
 
   return (
     <div className="p-4">
@@ -128,9 +126,12 @@ export default function CreateQuotePage() {
       </div>
       <div className="grid grid-cols-1 gap-4">
         <div className="text-center col-span-3">
-          <Button text="Create Quote" onClick={handleSubmit} />
+          <Button
+            text="Create Quote"
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </div>
-  );
+  )
 }
