@@ -1,8 +1,8 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
-function Header() {
+export function Header() {
   const linkClasses =
-    'text-sm sm:text-lg px-2 sm:px-3 py-0.5 sm:py-1 text-gray-700 hover:text-violet-900 rounded-md font-medium transition-colors duration-200';
+    'text-sm sm:text-lg px-2 sm:px-3 py-0.5 sm:py-1 text-gray-700 hover:text-violet-900 rounded-md font-medium transition-colors duration-200'
 
   return (
     <header className="bg-white shadow-md border-b border-gray-200">
@@ -19,13 +19,22 @@ function Header() {
 
           {/* Navigation - Center */}
           <nav className="flex space-x-8">
-            <Link href="/" className={linkClasses}>
+            <Link
+              href="/"
+              className={linkClasses}
+            >
               Random
             </Link>
-            <Link href="/search" className={linkClasses}>
+            <Link
+              href="/search"
+              className={linkClasses}
+            >
               Search
             </Link>
-            <Link href="/create" className={linkClasses}>
+            <Link
+              href="/create"
+              className={linkClasses}
+            >
               Create New
             </Link>
           </nav>
@@ -35,7 +44,5 @@ function Header() {
         </div>
       </div>
     </header>
-  );
+  )
 }
-
-export default Header;

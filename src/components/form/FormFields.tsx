@@ -1,8 +1,7 @@
 import React, { ChangeEvent } from 'react'
-import Input from '@/components/ui/Input'
-import Button from '@/components/ui/button'
-
 import { createSearchQueryInterface, InputType } from '@/types/interfaces'
+import { Input } from '../ui/Input'
+import { Button } from '../ui/button'
 
 type Props = {
   formData: any
@@ -15,7 +14,7 @@ type Props = {
   inputs: InputType[]
 }
 
-const FormFields = ({
+export const FormFields = ({
   formData,
   validationError,
   buttonSearchClicked,
@@ -70,5 +69,3 @@ const FormFields = ({
     </>
   )
 }
-
-export default FormFields

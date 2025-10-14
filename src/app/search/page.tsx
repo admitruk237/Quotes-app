@@ -1,15 +1,15 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
-import Title from '@/components/sections/Title'
-import SearchForm from '@/components/form/FormFields'
-import SearchResults from '@/components/sections/SearchResults'
+
 import { useSearchForm } from '@/hooks/useSearchForm'
 import { useQuoteSearch } from '@/hooks/useQuoteSearch'
 import { SEARCH_INPUT_CONFIG } from '@/config/searchConfig'
+import { SearchResults, Title } from '@/components/sections'
+import { FormFields } from '@/components/form/FormFields'
 
-function SearchQuotesPage() {
+export const SearchQuotesPage = () => {
   const {
     formData,
     validationError,
@@ -52,7 +52,7 @@ function SearchQuotesPage() {
     <div>
       <Title text="Search Quotes" />
 
-      <SearchForm
+      <FormFields
         formData={formData}
         validationError={validationError}
         buttonSearchClicked={buttonSearchClicked}
@@ -71,5 +71,3 @@ function SearchQuotesPage() {
     </div>
   )
 }
-
-export default SearchQuotesPage

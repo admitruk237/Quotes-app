@@ -1,4 +1,4 @@
-const PageLoadingSpinner = ({
+export const PageLoadingSpinner = ({
   message = 'Loading...',
   headerHeight = '80px',
 }) => {
@@ -32,5 +32,3 @@ const PageLoadingSpinner = ({
     </div>
   )
 }
-
-export default PageLoadingSpinner

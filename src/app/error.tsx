@@ -1,15 +1,14 @@
 'use client'
-
-import Button from '@/components/ui/button'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
+import { Button } from '@/components/ui/button'
 
-interface ErrorProps {
+type Props = {
   error: Error
   reset: () => void
 }
 
-export default function Error({ error, reset }: ErrorProps) {
+const ErrorPage = ({ error, reset }: Props) => {
   useEffect(() => {
     const toastId = toast.error(
       'An unexpected error occurred. Please try again.',
@@ -25,7 +24,6 @@ export default function Error({ error, reset }: ErrorProps) {
 
   const handleGoHome = () => {
     toast.dismiss()
-
     window.location.href = '/'
   }
 
@@ -62,3 +60,5 @@ export default function Error({ error, reset }: ErrorProps) {
     </div>
   )
 }
+
+export default ErrorPage

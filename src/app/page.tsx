@@ -1,10 +1,8 @@
 'use client'
 import { useEffect } from 'react'
-import Button from '@/components/ui/button'
-import QuoteCardSkeleton from '@/components/sections/QuoteCardSkeleton'
-import Title from '@/components/sections/Title'
-import Quotes from '@/components/sections/Quotes'
-import useQuotes from '@/hooks/useQuotes'
+import { QuoteCardSkeleton, Quotes, Title } from '@/components/sections'
+import { Button } from '@/components/ui/button'
+import { useQuotes } from '@/hooks/useQuotes'
 
 export default function RandomQuotesPage() {
   const { quotes, isLoading, fetchQuotes } = useQuotes()

@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import Button from '@/components/ui/button'
 
-const QuoteNotFound = () => {
+export const QuoteNotFound = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md text-center">
@@ -30,4 +30,3 @@ const QuoteNotFound = () => {
     </div>
   )
 }
-export default QuoteNotFound

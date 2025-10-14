@@ -3,13 +3,13 @@
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import PageLoadingSpinner from '@/components/PageLoadingSpinner'
+import { PageLoadingSpinner } from '@/components/PageLoadingSpinner'
 
 type Props = {
   message: string
 }
 
-export default function ClientValidationHandler({ message }: Props) {
+export const ClientValidationHandler = ({ message }: Props) => {
   const router = useRouter()
 
   useEffect(() => {

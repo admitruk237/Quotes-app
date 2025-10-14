@@ -1,22 +1,21 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 
-interface QuoteErrorProps {
-  id: string;
-  message: string;
+type Props = {
+  message: string
 }
 
-export default function QuoteError({ id, message }: QuoteErrorProps) {
-  const router = useRouter();
+export const QuoteError = ({ message }: Props) => {
+  const router = useRouter()
 
   const handleGoBack = () => {
     if (window.history.length > 1) {
-      router.back();
+      router.back()
     } else {
-      router.push('/');
+      router.push('/')
     }
-  };
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-10 bg-white shadow-lg rounded-lg dark:bg-gray-800">
@@ -51,5 +50,5 @@ export default function QuoteError({ id, message }: QuoteErrorProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

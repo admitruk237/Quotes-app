@@ -1,13 +1,13 @@
 'use client'
 
 import { useQuotePage } from '@/hooks/useQuotePage'
-import PageLoadingSpinner from '@/components/PageLoadingSpinner'
+import { PageLoadingSpinner } from '../PageLoadingSpinner'
 
-export default function QuotePageClient({
+export const QuotePageClient = ({
   params,
 }: {
   params: Promise<{ id: string }>
-}) {
+}) => {
   const { quote, loading, deleting, deleteQuote } = useQuotePage(params)
 
   if (loading) {
