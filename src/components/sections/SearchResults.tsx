@@ -1,19 +1,18 @@
-import React from 'react'
-import QuoteCardSkeleton from '@/components/sections/QuoteCardSkeleton'
-import Quotes from '@/components/Quote'
-import { Quote } from '@/types/interfaces'
+import { QuoteType } from '@/types/interfaces'
+import { QuoteCardSkeleton } from './QuoteCardSkeleton'
+import { Quote } from '../Quote'
 
-interface SearchResultsProps {
-  quotes: Quote[]
+type Props = {
+  quotes: QuoteType[]
   isLoading: boolean
   searchSubmitted: boolean
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({
+export const SearchResults = ({
   quotes,
   isLoading,
   searchSubmitted,
-}) => {
+}: Props) => {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -28,7 +27,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {quotes.map((quote) => (
-          <Quotes
+          <Quote
             key={quote.id}
             quote={quote}
           />
@@ -43,5 +42,3 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 
   return null
 }
-
-export default SearchResults

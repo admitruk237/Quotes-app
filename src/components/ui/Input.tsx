@@ -10,7 +10,7 @@ type Props = {
   errorMessage: string
 }
 
-const Input = ({
+export const Input = ({
   id,
   value,
   onChange,
@@ -41,5 +41,3 @@ const Input = ({
     </div>
   )
 }
-
-export default Input

@@ -1,9 +1,9 @@
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import Button from '@/components/ui/button'
 
-const QuoteNotFound = () => {
+export default function QuoteNotFound() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <div className="w-full max-w-md text-center">
         <div className="mb-8">
           <div className="text-6xl mb-4">💬</div>
@@ -20,7 +20,7 @@ const QuoteNotFound = () => {
 
         <div className="space-y-3">
           <Link href="/quotes">
-            <Button text="Back to Home" />
+            <Button text="Browse All Quotes" />
           </Link>
           <Link href="/">
             <Button text="Back to Home" />
@@ -30,4 +30,3 @@ const QuoteNotFound = () => {
     </div>
   )
 }
-export default QuoteNotFound

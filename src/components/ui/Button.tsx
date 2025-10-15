@@ -6,7 +6,7 @@ type Props = {
   disabled?: boolean
 }
 
-function Button(props: Props) {
+export const Button = (props: Props) => {
   const { variant = 'primary' } = props
 
   const baseStyles =
@@ -34,5 +34,3 @@ function Button(props: Props) {
     </div>
   )
 }
-
-export default Button

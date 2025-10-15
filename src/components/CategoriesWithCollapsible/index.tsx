@@ -1,32 +1,22 @@
+'use client'
 import { ChevronDown } from 'lucide-react'
-
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../ui/collapsible'
 
-type Props = {
-  categories: string[]
-}
+import { CategoriesWithCollapsibleProps } from '@/types/interfaces'
+import { useCategoriesWithCollapsible } from '@/hooks/useCategoriesWithCollapsible'
 
-const CategoriesWithCollapsible = ({ categories }: Props) => {
+export const CategoriesWithCollapsible = ({
+  categories,
+}: CategoriesWithCollapsibleProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [visibleCategories, setVisibleCategories] = useState<string[]>([])
-  const [hiddenCategories, setHiddenCategories] = useState<string[]>([])
-
-  useEffect(() => {
-    const maxVisible = 8
-
-    if (categories.length > maxVisible) {
-      setVisibleCategories(categories.slice(0, maxVisible))
-      setHiddenCategories(categories.slice(maxVisible))
-    } else {
-      setVisibleCategories(categories)
-      setHiddenCategories([])
-    }
-  }, [categories])
+  const { visibleCategories, hiddenCategories } = useCategoriesWithCollapsible({
+    categories,
+  })
 
   return (
     <Collapsible
@@ -79,5 +69,3 @@ const CategoriesWithCollapsible = ({ categories }: Props) => {
     </Collapsible>
   )
 }
-
-export default CategoriesWithCollapsible

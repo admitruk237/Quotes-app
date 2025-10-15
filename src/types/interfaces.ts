@@ -37,3 +37,7 @@ export interface InputType {
 export interface QuoteParams {
   params: Promise<{ id: string }>
 }
+
+export type CategoriesWithCollapsibleProps = {
+  categories: string[]
+}

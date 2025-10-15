@@ -1,4 +1,4 @@
-import QuotePageClient from '@/components/sections/QuotePageClient'
+import { QuotePageClient } from '@/components/sections'
 import { QuoteParams } from '@/types/interfaces'
 
 export default function QuotePage({ params }: QuoteParams) {

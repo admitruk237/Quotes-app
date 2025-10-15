@@ -3,7 +3,7 @@ import { QuoteType } from '@/types/interfaces'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
-const useQuotes = () => {
+export const useQuotes = () => {
   const [quotes, setQuotes] = useState<QuoteType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -25,5 +25,3 @@ const useQuotes = () => {
 
   return { quotes, isLoading, fetchQuotes }
 }
-
-export default useQuotes

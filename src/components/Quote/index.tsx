@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import CategoriesWithCollapsible from '../CategoriesWithCollapsible'
+import { CategoriesWithCollapsible } from '../CategoriesWithCollapsible'
 
 type Props = {
   quote: {
@@ -10,7 +10,7 @@ type Props = {
   }
 }
 
-const Quote = ({ quote }: Props) => {
+export const Quote = ({ quote }: Props) => {
   return (
     <div className="relative">
       <Link href={`/quotes/${quote.id}`}>
@@ -28,5 +28,3 @@ const Quote = ({ quote }: Props) => {
     </div>
   )
 }
-
-export default Quote

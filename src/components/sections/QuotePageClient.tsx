@@ -1,13 +1,14 @@
 'use client'
 
 import { useQuotePage } from '@/hooks/useQuotePage'
-import PageLoadingSpinner from '@/components/PageLoadingSpinner'
+import { PageLoadingSpinner } from '../PageLoadingSpinner'
+import { Button } from '../ui/button'
 
-export default function QuotePageClient({
+export const QuotePageClient = ({
   params,
 }: {
   params: Promise<{ id: string }>
-}) {
+}) => {
   const { quote, loading, deleting, deleteQuote } = useQuotePage(params)
 
   if (loading) {
@@ -44,13 +45,12 @@ export default function QuotePageClient({
       </div>
 
       <div className="flex gap-4 justify-center">
-        <button
-          onClick={deleteQuote}
+        <Button
+          variant="danger"
+          text={deleting ? 'Deleting...' : 'Delete Quote'}
           disabled={deleting}
-          className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-        >
-          {deleting ? 'Deleting...' : 'Delete Quote'}
-        </button>
+          onClick={deleteQuote}
+        />
       </div>
     </div>
   )
