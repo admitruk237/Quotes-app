@@ -1,9 +1,10 @@
+'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { API_ENDPOINTS } from '@/constants/api'
 import { createSearchQueryInterface } from '@/types/interfaces'
 import { CATEGORY_NAME_REGEX } from '@/utils/validationUtils'
+import { useRouter } from 'next/navigation'
 
 export const useCreateQuote = () => {
   const [text, setText] = useState<string>('')

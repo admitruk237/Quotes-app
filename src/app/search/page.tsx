@@ -1,73 +1,11 @@
-'use client'
+import { Title } from '@/components/sections'
+import { SearchQuotesClient } from '@/components/sections/SearchQuotesClient'
 
-import { useEffect, useRef } from 'react'
-import 'react-toastify/dist/ReactToastify.css'
-
-import { useSearchForm } from '@/hooks/useSearchForm'
-import { useQuoteSearch } from '@/hooks/useQuoteSearch'
-import { SEARCH_INPUT_CONFIG } from '@/config/searchConfig'
-import { SearchResults, Title } from '@/components/sections'
-import { FormFields } from '@/components/form/FormFields'
-
-export const SearchQuotesPage = () => {
-  const {
-    formData,
-    validationError,
-    buttonSearchClicked,
-    shouldExecuteSearch,
-    inputIsEmpty,
-    handleInputChange,
-    clearForm,
-    validateForm,
-    handleSearchButtonClick,
-  } = useSearchForm()
-
-  const { quotes, isLoading, searchSubmitted, searchQuotes, clearResults } =
-    useQuoteSearch()
-
-  const searchExecutedRef = useRef(false)
-
-  const handleClearInputs = () => {
-    clearForm()
-    clearResults()
-    searchExecutedRef.current = false
-  }
-
-  useEffect(() => {
-    if (shouldExecuteSearch && !searchExecutedRef.current) {
-      const isValid = validateForm()
-
-      if (isValid) {
-        searchQuotes(formData)
-        searchExecutedRef.current = true
-      }
-    }
-
-    if (shouldExecuteSearch) {
-      searchExecutedRef.current = false
-    }
-  }, [shouldExecuteSearch, formData, validateForm, searchQuotes])
-
+export default function SearchQuotesPage() {
   return (
     <div>
       <Title text="Search Quotes" />
-
-      <FormFields
-        formData={formData}
-        validationError={validationError}
-        buttonSearchClicked={buttonSearchClicked}
-        inputIsEmpty={inputIsEmpty}
-        onInputChange={handleInputChange}
-        onSearch={handleSearchButtonClick}
-        onClear={handleClearInputs}
-        inputs={SEARCH_INPUT_CONFIG}
-      />
-
-      <SearchResults
-        quotes={quotes}
-        isLoading={isLoading}
-        searchSubmitted={searchSubmitted}
-      />
+      <SearchQuotesClient />
     </div>
   )
 }

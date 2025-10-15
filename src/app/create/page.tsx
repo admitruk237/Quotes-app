@@ -1,7 +1,8 @@
+'use client'
 import { CreateQuoteForm } from '@/components/form'
 import { Title } from '@/components/sections'
 
-export function CreateQuotePage() {
+const CreateQuotePage = () => {
   return (
     <div className="p-4">
       <Title text="Create New Quote" />
@@ -9,3 +10,4 @@ export function CreateQuotePage() {
     </div>
   )
 }
+export default CreateQuotePage
